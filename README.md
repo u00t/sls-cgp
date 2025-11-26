@@ -6,7 +6,7 @@ Serverless CRUD API on AWS (API Gateway + Lambda + DynamoDB) with a React + Vite
 
 - Backend: TypeScript Lambdas packaged by Serverless Framework + esbuild, exposed via HTTP API Gateway, data stored in DynamoDB (on-demand throughput).
 - Frontend: Vite + React 19 + Tailwind UI to create, read, update, delete, and filter items against the API.
-- CI/CD: GitHub Actions deploys on pushes to `master` (or manual dispatch) using `sls deploy`.
+- CI/CD: GitHub Actions deploys on pushes to `main` (or manual dispatch) using `sls deploy`.
 - Environments: Stage is configurable via `--stage` (defaults to `dev`); table name is `${service}-${stage}-items`.
 
 ## 🗺️ Project layout
@@ -75,7 +75,7 @@ curl -X PUT "$API/items/ITEM_ID" \
 ## 🤖 CI/CD
 
 - Workflow: `.github/workflows/deploy.yml`.
-- Trigger: push to `master` or manual `workflow_dispatch`.
+- Trigger: push to `main` or manual `workflow_dispatch`.
 - Steps: checkout → Node.js 18 → install Serverless CLI → install deps → assume AWS creds → `sls deploy --stage prod`.
 - Secrets required: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`. Optional: set `STAGE` env to override the stage name.
 

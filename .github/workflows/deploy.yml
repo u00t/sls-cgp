@@ -12,9 +12,11 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: backend
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,6 +25,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18"
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
 
       - name: Install Serverless Framework CLI
         run: npm install -g serverless
@@ -37,7 +45,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Deploy
+      - name: Configure Serverless access key
+        run: |
+          echo "SERVERLESS_ACCESS_KEY=${{ secrets.SERVERLESS_ACCESS_KEY }}" >> $GITHUB_ENV
+
+      - name: Deploy Serverless API
         env:
-          STAGE: prod
-        run: sls deploy --stage $STAGE
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        run: sls deploy --stage prod
