@@ -1,0 +1,30 @@
+{
+  "name": "sls-cgp-backend",
+  "version": "1.0.0",
+  "description": "Serverless Framework CRUD API with DynamoDB",
+  "main": "src/handlers",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "test": "npm run lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.679.0",
+    "@aws-sdk/lib-dynamodb": "^3.679.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/node": "^20.14.10",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^3.6.2",
+    "serverless-esbuild": "^1.52.1",
+    "serverless-offline": "^14.4.0",
+    "typescript": "^5.5.4"
+  }
+}

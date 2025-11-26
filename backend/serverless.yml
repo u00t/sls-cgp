@@ -1,0 +1,89 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: serverlessu00t
+service: sls-cgp-backend
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    TABLE_NAME: ${self:service}-${sls:stage}-items
+  httpApi:
+    cors:
+      allowOrigins:
+        - '*'
+      allowMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowHeaders:
+        - Content-Type
+        - Authorization
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Query
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:Scan
+          Resource:
+            - !GetAtt ItemsTable.Arn
+
+functions:
+  createItem:
+    handler: src/handlers/create.createItem
+    events:
+      - http:
+          path: /items
+          method: post
+
+  getItem:
+    handler: src/handlers/get.getItem
+    events:
+      - http:
+          path: /items/{id}
+          method: get
+
+  listItems:
+    handler: src/handlers/list.listItems
+    events:
+      - http:
+          path: /items
+          method: get
+
+  updateItem:
+    handler: src/handlers/update.updateItem
+    events:
+      - http:
+          path: /items/{id}
+          method: put
+
+  deleteItem:
+    handler: src/handlers/delete.deleteItem
+    events:
+      - http:
+          path: /items/{id}
+          method: delete
+
+resources:
+  Resources:
+    ItemsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
