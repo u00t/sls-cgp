@@ -11,7 +11,7 @@ import {
 const emptyForm: ItemPayload = { name: "", description: "" };
 
 const buttonBase =
-  "inline-flex items-center gap-2 rounded-xl border font-semibold text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:opacity-60 disabled:cursor-not-allowed";
+  "inline-flex items-center gap-2 rounded-xl border font-semibold text-sm transition cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:opacity-60 disabled:cursor-not-allowed";
 const buttonSizes = {
   default: "px-4 py-3",
   small: "px-3 py-2 text-xs",
