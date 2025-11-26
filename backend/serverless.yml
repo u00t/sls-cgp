@@ -1,4 +1,3 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: serverlessu00t
 service: sls-cgp-backend
 
@@ -9,8 +8,11 @@ provider:
   runtime: nodejs18.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
+
   environment:
     TABLE_NAME: ${self:service}-${sls:stage}-items
+
+  # Enable CORS for AWS HTTP API (v2)
   httpApi:
     cors:
       allowOrigins:
@@ -24,6 +26,8 @@ provider:
       allowHeaders:
         - Content-Type
         - Authorization
+
+  # IAM permissions for DynamoDB CRUD
   iam:
     role:
       statements:
@@ -42,35 +46,35 @@ functions:
   createItem:
     handler: src/handlers/create.createItem
     events:
-      - http:
+      - httpApi:
           path: /items
           method: post
 
   getItem:
     handler: src/handlers/get.getItem
     events:
-      - http:
+      - httpApi:
           path: /items/{id}
           method: get
 
   listItems:
     handler: src/handlers/list.listItems
     events:
-      - http:
+      - httpApi:
           path: /items
           method: get
 
   updateItem:
     handler: src/handlers/update.updateItem
     events:
-      - http:
+      - httpApi:
           path: /items/{id}
           method: put
 
   deleteItem:
     handler: src/handlers/delete.deleteItem
     events:
-      - http:
+      - httpApi:
           path: /items/{id}
           method: delete
 
