@@ -77,7 +77,7 @@ curl -X PUT "$API/items/ITEM_ID" \
 - Workflow: `.github/workflows/deploy.yml`.
 - Trigger: push to `main` or manual `workflow_dispatch`.
 - Steps: checkout → Node.js 18 → install Serverless CLI → install deps → assume AWS creds → `sls deploy --stage prod`.
-- Secrets required: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`. Optional: set `STAGE` env to override the stage name.
+- Secrets required: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` & `SERVERLESS_ACCESS_KEY` to sign in to serverless. Optional: set `STAGE` env to override the stage name.
 
 ## 🧪 Useful commands
 
@@ -90,4 +90,3 @@ curl -X PUT "$API/items/ITEM_ID" \
 
 - Include CI/CD and AWS console screenshots in `docs/` and link them here:
   - `docs/ci-cd-run.png`
-  - `docs/deployed-stack.png`
